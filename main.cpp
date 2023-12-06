@@ -11,6 +11,7 @@ int main() {
     }
 
     puzzle_1(base_file_path);
+    puzzle_2(base_file_path);
 
     return 0;
 }

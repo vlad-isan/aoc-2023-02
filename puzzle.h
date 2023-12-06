@@ -9,16 +9,53 @@
 #include <cctype>
 #include <fstream>
 #include <iostream>
+#include <map>
+#include <numeric>
 #include <ranges>
+#include <regex>
+#include <sstream>
 #include <string>
+#include <unordered_map>
+#include <vector>
 #include "fmt/core.h"
 
-int puzzle_sample_1(std::string base_file_path);
-int puzzle_sample_2(std::string base_file_path);
-int puzzle_1(std::string base_file_path);
-int puzzle_2(std::string base_file_path);
+enum class Colour {
+    RED,
+    GREEN,
+    BLUE
+};
+
+using GroupColours = std::unordered_map<const Colour, const int>;
+
+const std::unordered_map<std::string, Colour> ColourMap{
+    {"red", Colour::RED},
+    {"green", Colour::GREEN},
+    {"blue", Colour::BLUE}
+};
+
+struct Group {
+    GroupColours group_colours;
+};
+
+struct Game {
+    int id;
+    std::vector<Group> groups;
+};
+
+int puzzle_sample_1(const std::string &base_file_path);
+
+int puzzle_sample_2(const std::string &base_file_path);
+
+int puzzle_1(const std::string &base_file_path);
+
+int puzzle_2(const std::string &base_file_path);
 
 int do_puzzle_1(std::ifstream &file);
+
 int do_puzzle_2(std::ifstream &file);
+
+Game parse_game(const std::string &game_line);
+
+int total_games_possible(const std::vector<Game> &games, const GroupColours &map);
 
 #endif //PUZZLE_H
