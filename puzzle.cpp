@@ -33,7 +33,7 @@ int puzzle_sample_2(const std::string &base_file_path) {
         return 0;
     }
 
-    return do_puzzle_1(file);
+    return do_puzzle_2(file);
 }
 
 int puzzle_1(const std::string &base_file_path) {
@@ -65,7 +65,7 @@ int puzzle_2(const std::string &base_file_path) {
         return 0;
     }
 
-    return do_puzzle_1(file);
+    return do_puzzle_2(file);
 }
 
 int do_puzzle_1(std::ifstream &file) {
@@ -73,7 +73,6 @@ int do_puzzle_1(std::ifstream &file) {
     std::vector<Game> games{};
 
     while (std::getline(file, line)) {
-        fmt::println("{}", line);
         games.push_back(parse_game(line));
     }
 
@@ -86,12 +85,13 @@ int do_puzzle_1(std::ifstream &file) {
 
 int do_puzzle_2(std::ifstream &file) {
     std::string line;
+    std::vector<Game> games{};
 
     while (std::getline(file, line)) {
-        fmt::println("{}", line);
+        games.push_back(parse_game(line));
     }
 
-    return 0;
+    return get_power_sum(games);
 }
 
 Game parse_game(const std::string &game_line) {
@@ -147,4 +147,30 @@ int total_games_possible(const std::vector<Game> &games, const GroupColours &map
     });
 
     return total;
+}
+
+int get_power_sum(const std::vector<Game> &games) {
+    return std::reduce(games.begin(), games.end(), 0, [&](int init, const Game &game) {
+        return init + get_game_power(game);
+    });
+}
+
+int get_game_power(const Game &game) {
+    GroupColours min_colour_no = {
+        {Colour::RED, 0},
+        {Colour::GREEN, 0},
+        {Colour::BLUE, 0}
+    };
+
+    for (auto &group: game.groups) {
+        for (auto &colour: group.group_colours) {
+            if (colour.second > min_colour_no[colour.first]) {
+                min_colour_no[colour.first] = colour.second;
+            }
+        }
+    }
+
+    return std::reduce(min_colour_no.begin(), min_colour_no.end(), 1, [&](int init, auto &colour) {
+        return init * colour.second;
+    });
 }

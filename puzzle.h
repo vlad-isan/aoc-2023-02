@@ -25,7 +25,7 @@ enum class Colour {
     BLUE
 };
 
-using GroupColours = std::unordered_map<const Colour, const int>;
+using GroupColours = std::unordered_map<Colour, int>;
 
 const std::unordered_map<std::string, Colour> ColourMap{
     {"red", Colour::RED},
@@ -57,5 +57,9 @@ int do_puzzle_2(std::ifstream &file);
 Game parse_game(const std::string &game_line);
 
 int total_games_possible(const std::vector<Game> &games, const GroupColours &map);
+
+int get_power_sum(const std::vector<Game> &games);
+
+int get_game_power(const Game &game);
 
 #endif //PUZZLE_H

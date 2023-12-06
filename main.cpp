@@ -10,8 +10,8 @@ int main() {
         return EXIT_FAILURE;
     }
 
-    puzzle_1(base_file_path);
-    puzzle_2(base_file_path);
+    fmt::println("Puzzle 1 result is {}", puzzle_1(base_file_path));
+    fmt::println("Puzzle 2 result is {}", puzzle_2(base_file_path));
 
     return 0;
 }
